@@ -16,9 +16,10 @@ import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
 @WebServlet("/article/list")
-public class ArticleListServist extends HttpServlet {
+public class ArticleListServist extends HttpServlet { // 사용자에게서 요청받음
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		Connection conn = null;
 
 		try {
@@ -32,15 +33,16 @@ public class ArticleListServist extends HttpServlet {
 		try {
 			conn = DriverManager.getConnection(url, "root", "");
 			
-			DBUtil dbUtil = new DBUtil();
+			SecSql sql = SecSql.from("SELECT *");
 			
-			SecSql sql = new SecSql();
+			sql.append("FROM article");
 			
-			sql.append("SELECT * FROM article");
+			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql); // 요청받은 정보를 db에서 가져와
 			
-			List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
+			request.setAttribute("articleRows", articleRows); // request 내에 속성 세팅 후 
 			
-			response.getWriter().append(articleRows.toString());
+			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
+			
 
 		} catch (SQLException e) {
 			System.out.println("에러: " + e);
@@ -53,5 +55,6 @@ public class ArticleListServist extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-}
+	}
+	
 }
