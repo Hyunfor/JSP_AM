@@ -15,7 +15,7 @@ import java.util.Map;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
-@WebServlet("/article/list")
+@WebServlet("/article/detail")
 public class ArticleDetailServlet extends HttpServlet { // 사용자에게서 요청받음
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,15 +33,18 @@ public class ArticleDetailServlet extends HttpServlet { // 사용자에게서 �
 		try {
 			conn = DriverManager.getConnection(url, "root", "");
 			
+			int id = Integer.parseInt(request.getParameter("id"));
+			
 			SecSql sql = SecSql.from("SELECT *");
 			
-			sql.append("FROM article");
+			sql.append("FROM article ");
+			sql.append("WHERE id = ?", id);
+		
+			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql); // 요청받은 정보를 db에서 가져와
 			
-			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql); // 요청받은 정보를 db에서 가져와
+			request.setAttribute("articleRow", articleRow); // request 내에 속성 세팅 후 
 			
-			request.setAttribute("articleRows", articleRows); // request 내에 속성 세팅 후 
-			
-			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
+			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
 			
 
 		} catch (SQLException e) {

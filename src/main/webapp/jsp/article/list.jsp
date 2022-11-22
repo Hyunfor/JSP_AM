@@ -14,6 +14,12 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>)request.getAt
 <title>게시물 리스트</title>
 </head>
 <body>
+
+	<div>
+		<a href="https://www.naver.com">네이버</a>
+		<a href="detail">게시글 상세보기</a>
+	</div>
+
 	<h1>게시물 리스트 v1</h1>
 	<ul>
 		<li><%= (int)articleRows.get(0).get("id") %>번, <%= (LocalDateTime)articleRows.get(0).get("regDate") %>, <%= (String)articleRows.get(0).get("title") %></li>
@@ -53,7 +59,7 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>)request.getAt
 		<% // 향상된 for문
 		for(Map<String, Object> articleRow : articleRows) {
 		%>
-		<li><%= (int)articleRow.get("id") %>번, <%= (LocalDateTime)articleRow.get("regDate") %>, <%= (String)articleRow.get("title") %></li>
+		<li><a href="detail?id=<%= (int)articleRow.get("id") %>"><%= (int)articleRow.get("id") %>번, <%= (LocalDateTime)articleRow.get("regDate") %>, <%= (String)articleRow.get("title") %></a></li>
 		<% } %>
 	</ul>
 	

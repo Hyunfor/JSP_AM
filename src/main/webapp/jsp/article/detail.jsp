@@ -4,9 +4,8 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-    <%                                                                                      // 키가들어오는 위치
-List<Map<String, Object>> articleRows = (List<Map<String, Object>>)request.getAttribute("articleRows");
+<%                                                                                      // 키가들어오는 위치
+Map<String, Object> articleRow = (Map<String, Object>)request.getAttribute("articleRow");
 %> 
     
 <!DOCTYPE html>
@@ -16,6 +15,12 @@ List<Map<String, Object>> articleRows = (List<Map<String, Object>>)request.getAt
 <title>게시물 상세보기</title>
 </head>
 <body>
-
+		<h1><%= (int)articleRow.get("id") %>번 게시물</h1>
+	
+		<div>번호 : <%= (int)articleRow.get("id") %></div>
+		<div>날짜 : <%= (LocalDateTime)articleRow.get("regDate") %></div>
+		<div>제목 : <%= (String)articleRow.get("title") %></div>
+		<div>내용 : <%= (String)articleRow.get("body") %></div>
+		<div><a href="list">목록으로</a></div>
 </body>
 </html>
