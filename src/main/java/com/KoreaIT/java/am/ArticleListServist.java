@@ -36,6 +36,7 @@ public class ArticleListServist extends HttpServlet { // 사용자에게서 요�
 			SecSql sql = SecSql.from("SELECT *");
 			
 			sql.append("FROM article");
+			sql.append("ORDER BY id DESC");
 			
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql); // 요청받은 정보를 db에서 가져와
 			
