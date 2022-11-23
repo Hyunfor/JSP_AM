@@ -18,6 +18,7 @@ import com.KoreaIT.java.am.util.SecSql;
 @WebServlet("/article/list")
 public class ArticleListServist extends HttpServlet { // 사용자에게서 요청받음
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		Connection conn = null;
@@ -77,5 +78,10 @@ public class ArticleListServist extends HttpServlet { // 사용자에게서 요�
 			}
 		}
 	}
+	
+	  @Override
+		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			doGet(request, response);
+		}
 	
 }

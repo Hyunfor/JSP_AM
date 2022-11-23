@@ -9,16 +9,16 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
-
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
-@WebServlet("/article/detail")
-public class ArticleDetailServlet extends HttpServlet { // 사용자에게서 요청받음
+@WebServlet("/article/doWrite")
+public class ArticleDoWriteServlet extends HttpServlet { // 사용자에게서 요청받음
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=UTF-8");
 		
 		Connection conn = null;
 
@@ -33,19 +33,18 @@ public class ArticleDetailServlet extends HttpServlet { // 사용자에게서 �
 		try {
 			conn = DriverManager.getConnection(url, "root", "");
 			
-			int id = Integer.parseInt(request.getParameter("id"));
+			String title = request.getParameter("title");
+			String body = request.getParameter("body");
 			
-			SecSql sql = SecSql.from("SELECT *");
+			SecSql sql = SecSql.from("INSERT INTO article");
 			
-			sql.append("FROM article ");
-			sql.append("WHERE id = ?", id);
-		
-			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql); // 요청받은 정보를 db에서 가져와
+			sql.append("SET regDate = NOW()");
+			sql.append(", title = ?", title);
+			sql.append(", `body` = ?", body);
 			
-			request.setAttribute("articleRow", articleRow); // request 내에 속성 세팅 후 
+			int id = DBUtil.delete(conn, sql);
 			
-			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
-			
+			response.getWriter().append(String.format("<script>alert('%d번 글이 생성 되었습니다.'); location.replace('list'); </script>)", id));
 
 		} catch (SQLException e) {
 			System.out.println("에러: " + e);

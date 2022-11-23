@@ -15,6 +15,7 @@ import com.KoreaIT.java.am.util.SecSql;
 @WebServlet("/article/doDelete")
 public class ArticleDoDeleteServlet extends HttpServlet { // 사용자에게서 요청받음
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		response.setContentType("text/html; charset=UTF-8");
@@ -54,6 +55,11 @@ public class ArticleDoDeleteServlet extends HttpServlet { // 사용자에게서 
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
 	
 }
