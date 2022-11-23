@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet("/home/main")
-public class MainServlet extends HttpServlet { // 사용자에게서 요청받음
+public class MainPageServlet extends HttpServlet { // 사용자에게서 요청받음
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

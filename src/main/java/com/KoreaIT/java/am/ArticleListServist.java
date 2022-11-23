@@ -33,13 +33,33 @@ public class ArticleListServist extends HttpServlet { // 사용자에게서 요�
 		try {
 			conn = DriverManager.getConnection(url, "root", "");
 			
-			SecSql sql = SecSql.from("SELECT *");
+			int page = 1; //page 변수 만들어서 파라미터에 넣기
+			if(request.getParameter("page") != null && request.getParameter("page").length() != 0) {
+				page = Integer.parseInt(request.getParameter("page"));
+			}
+			
+			int itemsInAPage = 10; // 10개씩 나오게
+			
+			int limitFrom = (page - 1) * itemsInAPage; 
+			
+			SecSql sql = SecSql.from("SELECT COUNT(id)");
+			sql.append("FROM article");
+			
+			// 페이지 개수를 확인하기 위해 DB에 다녀와야함
+			int totalCount = DBUtil.selectRowIntValue(conn, sql);
+							// 나눠서 올림한 후에 int로 변환
+			int totalPage = (int)Math.ceil((double)totalCount / itemsInAPage); // 나머지가 존재해야함
+			
+			sql = SecSql.from("SELECT *");
 			
 			sql.append("FROM article");
 			sql.append("ORDER BY id DESC");
+			sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
 			
 			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql); // 요청받은 정보를 db에서 가져와
 			
+			request.setAttribute("page", page);
+			request.setAttribute("totalPage", totalPage);
 			request.setAttribute("articleRows", articleRows); // request 내에 속성 세팅 후 
 			
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
