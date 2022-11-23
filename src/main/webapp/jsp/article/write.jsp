@@ -20,7 +20,6 @@
 			내용 : <textarea name="body" placeholder="내용을 입력해주세요."  type="text" /></textarea>
 		</div>
 	
-		<input type="submit" value="글쓰기"/>
 		<button type="submit">작성</button>
 	
 	</form>

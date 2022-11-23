@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
-@WebServlet("/article/doWrite")
-public class ArticleDoWriteServlet extends HttpServlet { // 사용자에게서 요청받음
+@WebServlet("/article/doModify")
+public class ArticleDoModifyServlet extends HttpServlet { // 사용자에게서 요청받음
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,18 +33,19 @@ public class ArticleDoWriteServlet extends HttpServlet { // 사용자에게서 �
 		try {
 			conn = DriverManager.getConnection(url, "root", "");
 			
+			int id = Integer.parseInt(request.getParameter("id"));
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			
-			SecSql sql = SecSql.from("INSERT INTO article");
+			SecSql sql = SecSql.from("UPDATE article");
 			
-			sql.append("SET regDate = NOW()");
-			sql.append(", title = ?", title);
+			sql.append("SET title = ?", title);
 			sql.append(", `body` = ?", body);
+			sql.append("WHERE id = ?", id);
 			
-			int id = DBUtil.insert(conn, sql);
+			DBUtil.update(conn, sql);
 			
-			response.getWriter().append(String.format("<script>alert('%d번 글이 생성 되었습니다.'); location.replace('list'); </script>)", id));
+			response.getWriter().append(String.format("<script>alert('%d번 글이 수정 되었습니다.'); location.replace('detail?id=%d'); </script>)", id, id));
 
 		} catch (SQLException e) {
 			System.out.println("에러: " + e);
