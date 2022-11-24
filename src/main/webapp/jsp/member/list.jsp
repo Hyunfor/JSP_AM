@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%                                                                                      // 키가들어오는 위치
-List<Map<String, Object>> articleRows = (List<Map<String, Object>>)request.getAttribute("articleRows");
+List<Map<String, Object>> memberRows = (List<Map<String, Object>>)request.getAttribute("memberRows");
 int cPage = (int)request.getAttribute("page");
 int totalPage = (int)request.getAttribute("totalPage");
 %>    
@@ -13,14 +13,14 @@ int totalPage = (int)request.getAttribute("totalPage");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>게시물 리스트</title>
+<title>회원 리스트</title>
 </head>
 <body>
 
-	<h1>게시물 리스트</h1>
+	<h1>회원 리스트</h1>
 	
 	<div>
-		<a href="write">글쓰기</a>
+		<a href="write">회원 가입</a>
 	</div>
 	
 	<table border="2" bordercolor="green">
@@ -31,16 +31,16 @@ int totalPage = (int)request.getAttribute("totalPage");
 		<tr> 
 			<th>번호</th>
 			<th>날짜</th>
-			<th>제목</th>
+			<th>아이디</th>
 		</tr>	
 	
-	<% for(Map<String, Object> articleRow : articleRows) { %>
+	<% for(Map<String, Object> memberRow : memberRows) { %>
 		<tr>
-			<td><%= (int)articleRow.get("id") %></td>
-			<td><%= (LocalDateTime)articleRow.get("regDate") %></td>
-			<td><a href="detail?id=<%= (int)articleRow.get("id") %>"><%= (String)articleRow.get("title") %></a></td>
+			<td><%= (int)memberRow.get("id") %></td>
+			<td><%= (LocalDateTime)memberRow.get("regDate") %></td>
+			<td><a href="detail?id=<%= (int)memberRow.get("id") %>"><%= (String)memberRow.get("loginId") %></a></td>
 																								<!-- 조건이 하나라면 {} 생략 가능. -->
-			<td><a href="doDelete?id=<%= (int)articleRow.get("id") %>" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제하기</a></td>
+			<td><a href="doDelete?id=<%= (int)memberRow.get("id") %>" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제하기</a></td>
 		</tr>
 		
 		<% } %>

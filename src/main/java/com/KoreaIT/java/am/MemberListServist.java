@@ -17,8 +17,8 @@ import com.KoreaIT.java.am.exception.SQLErrorException;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
-@WebServlet("/article/list")
-public class ArticleListServist extends HttpServlet { // 사용자에게서 요청받음
+@WebServlet("/member/list")
+public class MemberListServist extends HttpServlet { // 사용자에게서 요청받음
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -53,15 +53,15 @@ public class ArticleListServist extends HttpServlet { // 사용자에게서 요�
 			
 			sql = SecSql.from("SELECT *");
 			
-			sql.append("FROM article");
+			sql.append("FROM `member`");
 			sql.append("ORDER BY id DESC");
 			sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
 			
-			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql); // 요청받은 정보를 db에서 가져와
+			List<Map<String, Object>> memberRows = DBUtil.selectRows(conn, sql); // 요청받은 정보를 db에서 가져와
 			
 			request.setAttribute("page", page);
 			request.setAttribute("totalPage", totalPage);
-			request.setAttribute("articleRows", articleRows); // request 내에 속성 세팅 후 
+			request.setAttribute("articleRows", memberRows); // request 내에 속성 세팅 후 
 			
 			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
 			

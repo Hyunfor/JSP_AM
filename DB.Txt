@@ -23,20 +23,50 @@ WHERE id = ?;
 # article 데이터 추가
 INSERT INTO article
 SET regDate = NOW(),
-title = 'test1',
-`body` = 'test1';
+title = '아이폰14',
+`body` = '아이폰14';
 
 INSERT INTO article
 SET regDate = NOW(),
-title = 'test2',
-`body` = 'test2';
+title = '플립4',
+`body` = '플립4';
 
 INSERT INTO article
 SET regDate = NOW(),
-title = 'test3',
-`body` = 'test3';
+title = '아이패드 pro 5세대',
+`body` = '아이패드 pro 5세대';
 
 INSERT INTO article
 SET regDate = NOW(),
-title = 'test4',
-`body` = 'test4';
+title = '플렉스북 pro',
+`body` = '플렉스북 pro';
+
+INSERT INTO article(regDate, title, `body`)
+SELECT NOW(), CONCAT('제목_' RAND()), CONCAT('내용_ 'RAND())
+FROM article;
+
+# article 테이블 조회
+SELECT * FROM `member`;
+SELECT * FROM `member` ORDER BY id DESC;
+
+# member 테이블 생성
+CREATE TABLE `member` (
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	loginId VARCHAR(100) NOT NULL,
+	loginPw VARCHAR(100) NOT NULL,
+	`name` VARCHAR(100) NOT NULL
+);
+
+# member 데이터 추가
+INSERT INTO `member`
+SET regDate = NOW(),
+loginId = 'test1',
+loginPw = 'test1',
+`name` = '김철수';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+loginId = 'test2',
+loginPw = 'test2',
+`name` = '김영희';
