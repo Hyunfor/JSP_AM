@@ -39,7 +39,8 @@ int totalPage = (int)request.getAttribute("totalPage");
 			<td><%= (int)articleRow.get("id") %></td>
 			<td><%= (LocalDateTime)articleRow.get("regDate") %></td>
 			<td><a href="detail?id=<%= (int)articleRow.get("id") %>"><%= (String)articleRow.get("title") %></a></td>
-			<td><a href="doDelete?id=<%= (int)articleRow.get("id") %>">삭제하기</a></td>
+																								<!-- 조건이 하나라면 {} 생략 가능. -->
+			<td><a href="doDelete?id=<%= (int)articleRow.get("id") %>" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제하기</a></td>
 		</tr>
 		
 		<% } %>
