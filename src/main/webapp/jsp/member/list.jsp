@@ -19,10 +19,6 @@ int totalPage = (int)request.getAttribute("totalPage");
 
 	<h1>회원 리스트</h1>
 	
-	<div>
-		<a href="write">회원 가입</a>
-	</div>
-	
 	<table border="2" bordercolor="green">
 		<colgroup>
 			<col width="50"/>
@@ -38,9 +34,6 @@ int totalPage = (int)request.getAttribute("totalPage");
 		<tr>
 			<td><%= (int)memberRow.get("id") %></td>
 			<td><%= (LocalDateTime)memberRow.get("regDate") %></td>
-			<td><a href="detail?id=<%= (int)memberRow.get("id") %>"><%= (String)memberRow.get("loginId") %></a></td>
-																								<!-- 조건이 하나라면 {} 생략 가능. -->
-			<td><a href="doDelete?id=<%= (int)memberRow.get("id") %>" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;">삭제하기</a></td>
 		</tr>
 		
 		<% } %>
