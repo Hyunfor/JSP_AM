@@ -9,27 +9,19 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 
-@WebServlet("/home/main")
-public class MainPageServlet extends HttpServlet { // 사용자에게서 요청받음
+@WebServlet("/member/doLogout")
+public class MemberDoLogoutServlet extends HttpServlet { // 사용자에게서 요청받음
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession();
+		response.setContentType("text/html; charset=UTF-8");
 		
-		boolean isLogined = false;
+		HttpSession session = request.getSession(); // 세션에 남은 기록을 지워서 로그아웃
+		session.removeAttribute("loginedMemberId"); 
+		session.removeAttribute("loginedMemberLoginId");
 		
-		int loginedMemberId = -1;
-		
-		if(session.getAttribute("loginedMemberLoginId") != null) { // 로그인을 했을 시
-			loginedMemberId = (int)session.getAttribute("loginedmemberId");
-			isLogined = true;
-		}
-		
-		request.setAttribute("isLogined", isLogined);
-		request.setAttribute("isLoginedMemberId", loginedMemberId);
-		
-		request.getRequestDispatcher("/jsp/home/main.jsp").forward(request, response);
+		response.getWriter().append(String.format("<script>alert('로그아웃 되었습니다.'); location.replace('../home/main'); </script>)"));
 		
 	}
 	
