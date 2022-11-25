@@ -20,25 +20,28 @@ SELECT *
 FROM article 
 WHERE id = ?;
 
-
 # article 데이터 추가
 INSERT INTO article
 SET regDate = NOW(),
+memberId = 1,
 title = '아이폰14',
 `body` = '아이폰14';
 
 INSERT INTO article
 SET regDate = NOW(),
+memberId = 2,
 title = '플립4',
 `body` = '플립4';
 
 INSERT INTO article
 SET regDate = NOW(),
+memberId = 3,
 title = '아이패드 pro 5세대',
 `body` = '아이패드 pro 5세대';
 
 INSERT INTO article
 SET regDate = NOW(),
+memberId = 4,
 title = '플렉스북 pro',
 `body` = '플렉스북 pro';
 
@@ -64,10 +67,16 @@ INSERT INTO `member`
 SET regDate = NOW(),
 loginId = 'test1',
 loginPw = 'test1',
-`name` = '김철수';
+`name` = '유저1';
 
 INSERT INTO `member`
 SET regDate = NOW(),
 loginId = 'test2',
 loginPw = 'test2',
-`name` = '김영희';
+`name` = '유저2';
+
+INSERT INTO `member`
+SET regDate = NOW(),
+loginId = 'test3',
+loginPw = 'test3',
+`name` = '유저3';

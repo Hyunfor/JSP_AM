@@ -15,10 +15,13 @@ public class MainPageServlet extends HttpServlet { // 사용자에게서 요청�
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		response.setContentType("text/html; charset=UTF-8");
+		
 		HttpSession session = request.getSession();
 
 		boolean isLogined = false;
 		int loginedMemberId = -1;
+		String loginedMemberName = (String) session.getAttribute("loginedMemberName");
 
 		if(session.getAttribute("loginedMemberLoginId") != null) {
 			loginedMemberId = (int) session.getAttribute("loginedMemberId");
@@ -27,8 +30,9 @@ public class MainPageServlet extends HttpServlet { // 사용자에게서 요청�
 
 		request.setAttribute("isLogined", isLogined);
 		request.setAttribute("loginedMemberId", loginedMemberId);
+		request.setAttribute("loginedMemberName", loginedMemberName);
 
-		
+		request.getRequestDispatcher("/jsp/home/main.jsp").forward(request, response);
 	}
 	
 	@Override

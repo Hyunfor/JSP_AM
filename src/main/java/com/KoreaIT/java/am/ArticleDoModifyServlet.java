@@ -23,15 +23,7 @@ public class ArticleDoModifyServlet extends HttpServlet { // 사용자에게서 
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		response.setContentType("text/html; charset=UTF-8");
-		
-		HttpSession session = request.getSession();
-
-		if(session.getAttribute("loginedMemberId") == null) {
-			response.getWriter().append(String.format("<script>alert('로그인 후 이용해주세요.'); location.replace('../member/login');</script>"));
-			return;
-		}
 		
 		Connection conn = null;
 
@@ -43,30 +35,23 @@ public class ArticleDoModifyServlet extends HttpServlet { // 사용자에게서 
 
 		try {
 			conn = DriverManager.getConnection(Config.getDBUrl(), Config.getDBUser(), Config.getDBPassword());
-			
+
 			int id = Integer.parseInt(request.getParameter("id"));
 			String title = request.getParameter("title");
 			String body = request.getParameter("body");
 			
 			SecSql sql = SecSql.from("UPDATE article");
-			
 			sql.append("SET title = ?", title);
 			sql.append(", `body` = ?", body);
 			sql.append("WHERE id = ?", id);
 			
-			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-
-			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
-
-			if(loginedMemberId != (int) articleRow.get("memberId")) {
-				response.getWriter().append(String.format("<script>alert('해당 게시물에 대한 권한이 없습니다'); location.replace('list');</script>"));
-				return;
-			}
-
+			DBUtil.update(conn, sql);
+			
+			response.getWriter().append(String.format("<script>alert('%d번 글이 수정 되었습니다.'); location.replace('detail?id=%d');</script>", id, id));
 
 		} catch (SQLException e) {
 			System.out.println("에러: " + e);
-		} catch(SQLErrorException e) { // DB에러를 java에서 같이 보여줌
+		} catch (SQLErrorException e) {
 			e.getOrigin().printStackTrace();
 		} finally {
 			try {
