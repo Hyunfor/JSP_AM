@@ -15,7 +15,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 	<div>
 	
 		<%
-		if(isLogined) { // 로그인 상태
+		if(isLogined) {
 		%>
 			<div>
 				<span><%= loginedMemberId %>번 회원</span>
@@ -26,7 +26,7 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 		%>
 
 		<%
-		if(!isLogined) { // 로그아웃 상태
+		if(!isLogined) {
 		%>
 			<div>
 				<a href="../member/login">로그인</a>
@@ -37,17 +37,10 @@ int loginedMemberId = (int) request.getAttribute("loginedMemberId");
 		<%	
 		}
 		%>
-		
-		<div>
-			<a href="../member/list">회원리스트</a>
-		</div>
-		<div>
-			<a href="../article/write">게시물 작성하기</a>
-		</div>
+
 		<div>
 			<a href="../article/list">게시물 리스트</a>
 		</div>
-	</div>
 	
 </body>
 </html>
