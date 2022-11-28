@@ -11,13 +11,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Map;
 
 import com.KoreaIT.java.am.config.Config;
 import com.KoreaIT.java.am.controller.ArticleController;
 import com.KoreaIT.java.am.exception.SQLErrorException;
-import com.KoreaIT.java.am.util.DBUtil;
-import com.KoreaIT.java.am.util.SecSql;
 
 @WebServlet("/s/*")
 public class DispatcherServlet extends HttpServlet { // 사용자에게서 요청받음
@@ -66,7 +63,7 @@ public class DispatcherServlet extends HttpServlet { // 사용자에게서 요�
 			String controllerName = requestUriBits[3]; // 컨트롤러
 			String actionMethodName = requestUriBits[4]; // 컨트로러 내에서 
 			
-			if(controllerName.equals("article")) { // controllerName에 태워서 내림
+			if(controllerName.equals("article")) { // controllerName에 태워서 보냄 - 라우팅 역할
 				ArticleController articleController = new ArticleController(request, response, conn);
 
 				if(actionMethodName.equals("list")) {
