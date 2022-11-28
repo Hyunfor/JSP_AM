@@ -11,19 +11,31 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 import com.KoreaIT.java.am.config.Config;
+import com.KoreaIT.java.am.controller.ArticleController;
 import com.KoreaIT.java.am.exception.SQLErrorException;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
-@WebServlet("/article/list")
-public class ArticleListServist extends HttpServlet { // 사용자에게서 요청받음
+@WebServlet("/s/*")
+public class DispatcherServlet extends HttpServlet { // 사용자에게서 요청받음
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html; charset=UTF-8");
+		
+		String requestUri = request.getRequestURI(); // localhost:8084/JSP_AM/s
+		String[] requestUriBits = requestUri.split("/"); // /article/list 2개로 나눔
+		
+		if(requestUriBits.length < 5) { // 올바른 요청시 5조각. 올바른 요청인지 체크
+			response.getWriter().append("올바른 요청이 아닙니다.");
+			return;
+		}
 		
 		Connection conn = null;
 
@@ -51,38 +63,16 @@ public class ArticleListServist extends HttpServlet { // 사용자에게서 요�
 			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("loginedMemberName", loginedMemberName);
 			
-			int page = 1; //page 변수 만들어서 파라미터에 넣기
-			if(request.getParameter("page") != null && request.getParameter("page").length() != 0) {
-				page = Integer.parseInt(request.getParameter("page"));
+			String controllerName = requestUriBits[3]; // 컨트롤러
+			String actionMethodName = requestUriBits[4]; // 컨트로러 내에서 
+			
+			if(controllerName.equals("article")) { // controllerName에 태워서 내림
+				ArticleController articleController = new ArticleController(request, response, conn);
+
+				if(actionMethodName.equals("list")) {
+					articleController.showList();
+				}
 			}
-			
-			int itemsInAPage = 10; // 10개씩 나오게
-			
-			int limitFrom = (page - 1) * itemsInAPage; 
-			
-			SecSql sql = SecSql.from("SELECT COUNT(id)");
-			sql.append("FROM article");
-			
-			// 페이지 개수를 확인하기 위해 DB에 다녀와야함
-			int totalCount = DBUtil.selectRowIntValue(conn, sql);
-							// 나눠서 올림한 후에 int로 변환
-			int totalPage = (int)Math.ceil((double)totalCount / itemsInAPage); // 나머지가 존재해야함
-			
-			sql = SecSql.from("SELECT A.*, M.name AS writerName");
-			sql.append("FROM article AS A");
-			sql.append("INNER JOIN `member` AS M");
-			sql.append("ON A.memberId = M.id");
-			sql.append("ORDER BY A.id DESC");
-			sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
-			
-			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql); // 요청받은 정보를 db에서 가져와
-			
-			request.setAttribute("page", page);
-			request.setAttribute("totalPage", totalPage);
-			request.setAttribute("articleRows", articleRows); // request 내에 속성 세팅 후 
-			
-			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
-			
 
 		} catch (SQLException e) {
 			System.out.println("에러: " + e);
@@ -99,9 +89,9 @@ public class ArticleListServist extends HttpServlet { // 사용자에게서 요�
 		}
 	}
 	
-	  @Override
-		protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-			doGet(request, response);
-		}
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
+	}
 	
 }
