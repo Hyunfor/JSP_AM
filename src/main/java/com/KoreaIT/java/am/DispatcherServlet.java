@@ -23,7 +23,7 @@ public class DispatcherServlet extends HttpServlet { // 사용자에게서 요�
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		
-		response.setCharacterEncoding("UTF-8");
+		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		
 		String requestUri = request.getRequestURI(); // localhost:8084/JSP_AM/s
@@ -68,6 +68,10 @@ public class DispatcherServlet extends HttpServlet { // 사용자에게서 요�
 
 				if(actionMethodName.equals("list")) {
 					articleController.showList();
+				}
+				
+				if(actionMethodName.equals("detail")) {
+					articleController.showDetail();
 				}
 			}
 

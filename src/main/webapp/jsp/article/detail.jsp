@@ -4,7 +4,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%                                                                                      // 키가들어오는 위치
+<%                                                                 // 키가들어오는 위치
 Map<String, Object> articleRow = (Map<String, Object>)request.getAttribute("articleRow");
 %> 
     

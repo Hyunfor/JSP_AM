@@ -12,7 +12,7 @@ public class Article {
 	public String body;
 	public String writerName;
 
-	public Article(Map<String, Object> articleMap) {
+	public Article(Map<String, Object> articleMap) { // 압출풀기
 		this.id = (int) articleMap.get("id");
 		this.regDate = (LocalDateTime) articleMap.get("regDate");
 		this.memberId = (int) articleMap.get("memberId");
@@ -20,5 +20,5 @@ public class Article {
 		this.body = (String) articleMap.get("body");
 		this.writerName = (String) articleMap.get("writerName");
 	}
-
+	
 }

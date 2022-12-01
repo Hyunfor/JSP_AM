@@ -2,6 +2,7 @@ package com.KoreaIT.java.am.service;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import com.KoreaIT.java.am.dao.ArticleDao;
 import com.KoreaIT.java.am.dto.Article;
@@ -11,7 +12,7 @@ public class ArticleService {
 	private int itemsInAPage;
 	private ArticleDao articleDao;
 
-	public ArticleService(Connection conn) {
+	public ArticleService(Connection conn) { // 연결
 		this.itemsInAPage = 10;
 		this.articleDao = new ArticleDao(conn);
 	}
@@ -30,6 +31,11 @@ public class ArticleService {
 		
 		return articleDao.getArticles(limitFrom, itemsInAPage);
 	}
+	
+	public Map<String, Object> getArticleRow(int id) {
+		return articleDao.getArticleRow(id);
+	}
+
 
 }
 

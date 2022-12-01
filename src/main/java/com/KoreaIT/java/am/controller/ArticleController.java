@@ -3,9 +3,12 @@ package com.KoreaIT.java.am.controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import com.KoreaIT.java.am.dto.Article;
 import com.KoreaIT.java.am.service.ArticleService;
+import com.KoreaIT.java.am.util.DBUtil;
+import com.KoreaIT.java.am.util.SecSql;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,13 +20,13 @@ public class ArticleController {
 	private HttpServletResponse response;
 	private ArticleService articleService;
 
-	public ArticleController(HttpServletRequest request, HttpServletResponse response, Connection conn) {
+	public ArticleController(HttpServletRequest request, HttpServletResponse response, Connection conn) { // 넘겨받아서 사용
 		this.request = request;
 		this.response = response;
 		this.articleService = new ArticleService(conn);
 	}
 
-	public void showList() throws ServletException, IOException {
+	public void showList() throws ServletException, IOException { // ServletException, IOException으로 예외처리
 
 		int page = 1;
 
@@ -31,7 +34,7 @@ public class ArticleController {
 		  page = Integer.parseInt(request.getParameter("page"));
 		}
 
-		int totalPage = articleService.getListTotalPage();
+		int totalPage = articleService.getListTotalPage(); // totalPage를 service에서 가져와서 실행
 
 		List<Article> articles = articleService.getArticleRows(page);
 
@@ -41,5 +44,17 @@ public class ArticleController {
 
 		request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
 	}
+	
+	public void showDetail() throws ServletException, IOException { // ServletException, IOException으로 예외처리
+		
+		int id = Integer.parseInt(request.getParameter("id")); 
+		
+		Map<String, Object> articleRow = articleService.getArticleRow(id);
+
+		request.setAttribute("articleRow", articleRow); // request 내에 속성 세팅 후 
+		
+		request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
+	}
+
 
 }

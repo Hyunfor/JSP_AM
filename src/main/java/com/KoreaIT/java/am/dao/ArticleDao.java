@@ -13,7 +13,7 @@ public class ArticleDao {
 	
 	private Connection conn;
 
-	public ArticleDao(Connection conn) {
+	public ArticleDao(Connection conn) { // 받아온 conn 연결
 		this.conn = conn;
 	}
 
@@ -34,7 +34,7 @@ public class ArticleDao {
 		sql.append("ORDER BY A.id DESC");
 		sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
 
-		List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
+		List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql); // 정제를 해서 넘김 
 
 		List<Article> articles = new ArrayList<>();
 
@@ -43,6 +43,19 @@ public class ArticleDao {
 		}
 
 		return articles;
+	}
+
+	public Map<String, Object> getArticleRow(int id) {
+//		int id = Integer.parseInt(request.getParameter("id"));
+		
+		SecSql sql = SecSql.from("SELECT A.*, M.name AS writerName");
+		sql.append("FROM article AS A");
+		sql.append("INNER JOIN `member` AS M");
+		sql.append("ON A.memberId = M.id");
+		sql.append("WHERE A.id = ?", id);
+
+		Map<String, Object> articleRow = DBUtil.selectRow(conn, sql); // 요청받은 정보를 db에서 가져와
+		return DBUtil.selectRow(conn, sql);
 	}
 
 }
