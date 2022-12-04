@@ -1,5 +1,6 @@
 package com.KoreaIT.java.am.service;
 
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import com.KoreaIT.java.am.dto.Article;
 public class ArticleService {
 
 	private int itemsInAPage;
-	private ArticleDao articleDao;
+	private static ArticleDao articleDao;
 
 	public ArticleService(Connection conn) { // 연결
 		this.itemsInAPage = 10;
@@ -24,6 +25,13 @@ public class ArticleService {
 
 		return totalPage;
 	}
+	
+	public static int getAttribute(int memberId, String title, String body) {
+		
+		int id = ArticleService.getAttribute(memberId, title, body);
+		
+		return articleDao.getAttribute(id, body, body);
+	}
 
 	public List<Article> getArticleRows(int page) {
 
@@ -35,7 +43,6 @@ public class ArticleService {
 	public Map<String, Object> getArticleRow(int id) {
 		return articleDao.getArticleRow(id);
 	}
-
 
 }
 

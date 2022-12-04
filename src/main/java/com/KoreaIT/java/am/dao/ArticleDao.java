@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.KoreaIT.java.am.dto.Article;
+import com.KoreaIT.java.am.service.ArticleService;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
@@ -24,6 +25,19 @@ public class ArticleDao {
 
 		return DBUtil.selectRowIntValue(conn, sql);
 	}
+	
+	public int getAttribute(int loginedMemberId, String title, String body) {
+
+		SecSql sql = SecSql.from("INSERT INTO article");
+		
+		sql.append("SET regDate = NOW()");
+		sql.append(", memberId = ?", loginedMemberId);
+		sql.append(", title = ?", title);
+		sql.append(", `body` = ?", body);
+		
+		return DBUtil.insert(conn, sql);
+	}
+
 
 	public List<Article> getArticles(int limitFrom, int itemsInAPage) {
 
@@ -46,7 +60,6 @@ public class ArticleDao {
 	}
 
 	public Map<String, Object> getArticleRow(int id) {
-//		int id = Integer.parseInt(request.getParameter("id"));
 		
 		SecSql sql = SecSql.from("SELECT A.*, M.name AS writerName");
 		sql.append("FROM article AS A");

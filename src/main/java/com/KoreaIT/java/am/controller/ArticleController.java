@@ -7,12 +7,11 @@ import java.util.Map;
 
 import com.KoreaIT.java.am.dto.Article;
 import com.KoreaIT.java.am.service.ArticleService;
-import com.KoreaIT.java.am.util.DBUtil;
-import com.KoreaIT.java.am.util.SecSql;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 public class ArticleController {
 
@@ -24,6 +23,22 @@ public class ArticleController {
 		this.request = request;
 		this.response = response;
 		this.articleService = new ArticleService(conn);
+	}
+	
+	public void doWrite() throws ServletException, IOException { // ServletException, IOException으로 예외처리
+		
+		HttpSession session = request.getSession();
+		
+		String title = request.getParameter("title");
+		String body = request.getParameter("body");
+		
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		
+		int id = ArticleService.getAttribute(loginedMemberId, title, body);	
+		
+		request.getRequestDispatcher("/jsp/article/write.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
+		response.getWriter().append(String.format("<script>alert('%d번 글이 생성 되었습니다.'); location.replace('list'); </script>)", id));
+		
 	}
 
 	public void showList() throws ServletException, IOException { // ServletException, IOException으로 예외처리
