@@ -66,6 +66,13 @@ public class DispatcherServlet extends HttpServlet { // 사용자에게서 요�
 			if(controllerName.equals("article")) { // controllerName에 태워서 보냄 - 라우팅 역할
 				ArticleController articleController = new ArticleController(request, response, conn);
 
+				if(actionMethodName.equals("write")) {
+					articleController.Write();
+				}
+				if(actionMethodName.equals("dowrite")) {
+					articleController.doWrite();
+				}
+				
 				if(actionMethodName.equals("list")) {
 					articleController.showList();
 				}

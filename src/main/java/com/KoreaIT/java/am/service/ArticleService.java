@@ -1,6 +1,5 @@
 package com.KoreaIT.java.am.service;
 
-import java.io.PrintStream;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +25,9 @@ public class ArticleService {
 		return totalPage;
 	}
 	
-	public static int getAttribute(int memberId, String title, String body) {
+	public int getWrite(int memberId, String title, String body) {
 		
-		int id = ArticleService.getAttribute(memberId, title, body);
-		
-		return articleDao.getAttribute(id, body, body);
+		return articleDao.getWrite(memberId, body, body);
 	}
 
 	public List<Article> getArticleRows(int page) {

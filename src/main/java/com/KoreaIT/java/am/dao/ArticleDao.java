@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.KoreaIT.java.am.dto.Article;
-import com.KoreaIT.java.am.service.ArticleService;
 import com.KoreaIT.java.am.util.DBUtil;
 import com.KoreaIT.java.am.util.SecSql;
 
@@ -26,7 +25,7 @@ public class ArticleDao {
 		return DBUtil.selectRowIntValue(conn, sql);
 	}
 	
-	public int getAttribute(int loginedMemberId, String title, String body) {
+	public int getWrite(int loginedMemberId, String title, String body) {
 
 		SecSql sql = SecSql.from("INSERT INTO article");
 		
