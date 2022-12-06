@@ -40,6 +40,10 @@ public class ArticleService {
 	public Map<String, Object> getArticleRow(int id) {
 		return articleDao.getArticleRow(id);
 	}
+	
+	public void doDelete(int id) {
+		articleDao.doDelete(id);
+	}
 
 }
 

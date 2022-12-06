@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.KoreaIT.java.am.dto.Article;
 import com.KoreaIT.java.am.service.ArticleService;
+import com.KoreaIT.java.am.util.DBUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -83,6 +84,28 @@ public class ArticleController {
 		request.setAttribute("articleRow", articleRow); // request 내에 속성 세팅 후 
 		
 		request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
+	}
+
+	public void doDelete() throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		
+		int id = Integer.parseInt(request.getParameter("id")); 
+		
+		int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+		
+		if(session.getAttribute("loginedMemberId") == null) {
+			response.getWriter().append(String.format("<script>alert('로그인 후 이용해주세요.'); location.replace('../member/login');</script>"));
+			return;
+		}
+		
+		Map<String, Object> articleRow =articleService.getArticleRow(id);
+		
+		if(loginedMemberId != (int) articleRow.get("memberId")) {
+			response.getWriter().append(String.format("<script>alert('해당 게시물에 대한 권한이 없습니다'); location.replace('list');</script>"));
+			return;
+		}
+		
+		response.getWriter().append(String.format("<script>alert('%d번 글이 삭제 되었습니다.'); location.replace('list');</script>", id));
 	}
 
 

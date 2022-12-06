@@ -80,6 +80,10 @@ public class DispatcherServlet extends HttpServlet { // 사용자에게서 요�
 				if(actionMethodName.equals("detail")) {
 					articleController.showDetail();
 				}
+				
+				if(actionMethodName.equals("delete")) {
+					articleController.doDelete();
+				}
 			}
 
 		} catch (SQLException e) {

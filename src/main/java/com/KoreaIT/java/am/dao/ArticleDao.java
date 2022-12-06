@@ -70,4 +70,18 @@ public class ArticleDao {
 		return DBUtil.selectRow(conn, sql);
 	}
 
+	public int doDelete(int id) {
+		SecSql sql = SecSql.from("SELECT *");
+		sql.append("FROM article");
+		sql.append("WHERE id = ?", id);
+		
+		sql = SecSql.from("DELETE");
+		sql.append("FROM article");
+		sql.append("WHERE id = ?", id);
+
+		int articleRow = DBUtil.delete(conn, sql); // 요청받은 정보를 db에서 가져와
+		return DBUtil.delete(conn, sql);
+		
+	}
+
 }
