@@ -85,6 +85,16 @@ public class ArticleController {
 		
 		request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
 	}
+	
+	public void Modify() throws ServletException, IOException {
+		int id = Integer.parseInt(request.getParameter("id"));
+		
+		Map<String, Object> articleRow = articleService.getArticleRowMd(id);
+		
+		request.setAttribute("articleRow", articleRow); // request 내에 속성 세팅 후 
+		
+		request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response); //jsp로 일을 넘겨받아서 꺼내옴
+	}
 
 	public void doDelete() throws ServletException, IOException {
 		HttpSession session = request.getSession();
@@ -107,6 +117,8 @@ public class ArticleController {
 		
 		response.getWriter().append(String.format("<script>alert('%d번 글이 삭제 되었습니다.'); location.replace('list');</script>", id));
 	}
+
+	
 
 
 }

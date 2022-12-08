@@ -69,6 +69,18 @@ public class ArticleDao {
 		Map<String, Object> articleRow = DBUtil.selectRow(conn, sql); // 요청받은 정보를 db에서 가져와
 		return DBUtil.selectRow(conn, sql);
 	}
+	
+	public Map<String, Object> getArticleRowMd(int id) {
+		
+		SecSql sql = SecSql.from("SELECT *");
+		
+		sql.append("FROM article ");
+		sql.append("WHERE id = ?", id);
+	
+		Map<String, Object> articleRow = DBUtil.selectRow(conn, sql); // 요청받은 정보를 db에서 가져와
+		
+		return DBUtil.selectRow(conn, sql); 
+	}
 
 	public int doDelete(int id) {
 		SecSql sql = SecSql.from("SELECT *");
@@ -83,5 +95,6 @@ public class ArticleDao {
 		return DBUtil.delete(conn, sql);
 		
 	}
+
 
 }

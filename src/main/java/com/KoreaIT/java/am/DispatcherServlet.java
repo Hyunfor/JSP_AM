@@ -81,6 +81,10 @@ public class DispatcherServlet extends HttpServlet { // 사용자에게서 요�
 					articleController.showDetail();
 				}
 				
+				if(actionMethodName.equals("modify")) {
+					articleController.Modify();
+				}
+				
 				if(actionMethodName.equals("delete")) {
 					articleController.doDelete();
 				}
